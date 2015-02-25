@@ -19,22 +19,21 @@ public class LogReader implements AutoCloseable {
   private BufferedReader reader;
   private FileWatcher watcher;
   
-  public LogReader(String fileName) throws Exception {
+  public LogReader(final String fileName) throws Exception {
+    this(new FileWatcher(fileName), fileName);
+    init();
+  }
+  
+  public LogReader(final FileWatcher watcher, final String fileName) throws Exception {
+    this.watcher = watcher;
     this.filePath = Paths.get(fileName);
     InputStream is = Files.newInputStream(this.filePath, StandardOpenOption.READ);
     reader = new BufferedReader(new InputStreamReader(is));
-    watcher = new FileWatcher(fileName);
-    init();
   }
 
   @PostConstruct
-  private void init() {
+  private void init() throws Exception {
     watcher.start();
-  }
-
-  @PreDestroy
-  private void destroy() {
-    watcher.stop();
   }
 
   public boolean hasChanged() {
@@ -48,11 +47,12 @@ public class LogReader implements AutoCloseable {
     return line;
   }
 
+  @PreDestroy
   @Override
   public void close() throws Exception {
     if (reader != null) 
       reader.close();
-    destroy();
+    watcher.stop();
   }
 
 }
