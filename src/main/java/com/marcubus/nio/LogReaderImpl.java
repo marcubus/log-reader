@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,19 +12,22 @@ import java.nio.file.StandardOpenOption;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import com.marcubus.nio.service.FileWatcherService;
+import com.marcubus.nio.service.ResourceWatcherService;
 
-public class LogReader implements AutoCloseable {
+
+public class LogReaderImpl implements LogReader {
 
   private Path filePath;
   private BufferedReader reader;
-  private FileWatcher watcher;
+  private ResourceWatcherService watcher;
   
-  public LogReader(final String fileName) throws Exception {
-    this(new FileWatcher(fileName), fileName);
+  public LogReaderImpl(final String fileName) throws Exception {
+    this(new FileWatcherService(fileName), fileName);
     init();
   }
   
-  public LogReader(final FileWatcher watcher, final String fileName) throws Exception {
+  public LogReaderImpl(final ResourceWatcherService watcher, final String fileName) throws Exception {
     this.watcher = watcher;
     this.filePath = Paths.get(fileName);
     InputStream is = Files.newInputStream(this.filePath, StandardOpenOption.READ);
@@ -36,10 +39,12 @@ public class LogReader implements AutoCloseable {
     watcher.start();
   }
 
+  @Override
   public boolean hasChanged() {
     return watcher.isChanged();
   }
 
+  @Override
   public String nextEntry() throws IOException {
     String line = reader.readLine(); 
     if (line == null)

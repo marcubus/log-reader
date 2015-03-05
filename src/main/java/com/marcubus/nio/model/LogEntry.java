@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.model;
 
 public class LogEntry {
 

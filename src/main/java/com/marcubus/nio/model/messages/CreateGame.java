@@ -1,15 +1,14 @@
-package com.marcubus.hs.log.messageTypes;
+package com.marcubus.nio.model.messages;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.marcubus.hs.log.LogEntry;
-import com.marcubus.hs.log.LogMessageType;
+import com.marcubus.nio.model.LogEntry;
 
-public class StartMulligan extends LogMessageType {
+public class CreateGame extends LogMessage {
 
-  // [Power] GameState.DebugPrintPower() -         tag=NEXT_STEP value=BEGIN_MULLIGAN
-  private static final String PATTERN = "^\\[([A-Za-z]+)\\].*?=(BEGIN_MULLIGAN).*$";  
+  // [Power] GameState.DebugPrintPower() - CREATE_GAME
+  private static final String PATTERN = "^\\[([A-Za-z]+)\\].*? - (CREATE_GAME).*$";  
   
   @Override
   public Pattern getPattern() {

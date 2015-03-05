@@ -1,28 +1,31 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.marcubus.nio.model.LogEntry;
+import com.marcubus.nio.service.MessageFactory;
+
 public class LogFactoryTest {
 
   @Test
   public void create() {
-    LogFactory factory = new LogFactory();
+    MessageFactory factory = new MessageFactory();
     LogEntry entry = factory.create("string");
     assertNotNull(entry);
   }
 
   @Test
   public void rawSet() {
-    LogFactory factory = new LogFactory();
+    MessageFactory factory = new MessageFactory();
     LogEntry entry = factory.create("string");
     assertEquals("string", entry.getRaw());
   }
 
   @Test
   public void testParseCreateGame() {
-    LogFactory factory = new LogFactory();
+    MessageFactory factory = new MessageFactory();
     LogEntry entry = factory.create("[Power] GameState.DebugPrintPower() - CREATE_GAME");
     assertEquals(true, entry.isMatched());
     assertEquals("Power", entry.getLoggerName());
@@ -31,7 +34,7 @@ public class LogFactoryTest {
 
   @Test
   public void testParseStartMulligan() {
-    LogFactory factory = new LogFactory();
+    MessageFactory factory = new MessageFactory();
     LogEntry entry = factory.create("[Power] GameState.DebugPrintPower() -         tag=NEXT_STEP value=BEGIN_MULLIGAN");
     assertEquals(true, entry.isMatched());
     assertEquals("Power", entry.getLoggerName());

@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +14,8 @@ import java.util.Observer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.marcubus.nio.service.FileWatcher;
 
 public class FileWatchRunnerTest {
 
@@ -38,7 +40,7 @@ public class FileWatchRunnerTest {
   
   @Test
   public void testHasChanged() throws Exception {
-    FileWatchRunner runner = new FileWatchRunner(watcher, "src/test/resources/output_log.txt");
+    FileWatcher runner = new FileWatcher(watcher, "src/test/resources/output_log.txt");
     Thread thread = new Thread(runner, "watcher");
     
     TestObserver observer = new TestObserver();
@@ -53,7 +55,7 @@ public class FileWatchRunnerTest {
   
   @Test
   public void testCreateFileNotExists() throws Exception {
-    new FileWatchRunner(watcher, "src/test/resources/aaoutput_log.txt");
+    new FileWatcher(watcher, "src/test/resources/aaoutput_log.txt");
   }
   
   private class TestObserver implements Observer {

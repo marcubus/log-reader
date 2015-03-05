@@ -1,13 +1,12 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import java.nio.file.FileSystems;
 import java.nio.file.WatchService;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FileWatcher implements Observer {
+public class FileWatcherService implements ResourceWatcherService {
 
   private final String filePath;
   private final ExecutorService executor;
@@ -16,11 +15,11 @@ public class FileWatcher implements Observer {
   private boolean isChanged;
   private boolean isStarted;
   
-  public FileWatcher(final String filePath) throws Exception {
+  public FileWatcherService(final String filePath) throws Exception {
     this(Executors.newSingleThreadExecutor(), FileSystems.getDefault().newWatchService(), filePath);
   }
 
-  public FileWatcher(final ExecutorService executor, final WatchService watcher, final String filePath) throws Exception {
+  public FileWatcherService(final ExecutorService executor, final WatchService watcher, final String filePath) throws Exception {
     this.executor = executor;
     this.watcher  = watcher;
     this.filePath = filePath;
@@ -31,10 +30,11 @@ public class FileWatcher implements Observer {
     setChanged(true);    
   }
 
+  @Override
   public void start() throws Exception {
     synchronized (executor) {
       if (!isStarted) {
-        FileWatchRunner runner = new FileWatchRunner(watcher, filePath);
+        FileWatcher runner = new FileWatcher(watcher, filePath);
         runner.addObserver(this);
         executor.execute(runner);
         isStarted = true;
@@ -42,16 +42,19 @@ public class FileWatcher implements Observer {
     }
   }
   
+  @Override
   public void stop() throws Exception {
     synchronized (executor) {
       executor.shutdown();
     }    
   }
   
+  @Override
   public boolean isChanged() {
     return isChanged;
   }
 
+  @Override
   public void resetChanged() {
     isChanged = false;
   }

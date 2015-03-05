@@ -1,9 +1,11 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.model.messages;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class LogMessageType {
+import com.marcubus.nio.model.LogEntry;
+
+public abstract class LogMessage {
 
   public abstract Pattern getPattern();
   

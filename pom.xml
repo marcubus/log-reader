@@ -41,4 +41,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	 <reporting>
+    <plugins>
+      <!-- trigger cobertura report -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+  
 </project>

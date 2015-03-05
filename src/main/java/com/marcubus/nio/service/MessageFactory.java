@@ -1,17 +1,19 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.marcubus.hs.log.messageTypes.CreateGame;
-import com.marcubus.hs.log.messageTypes.StartMulligan;
+import com.marcubus.nio.model.LogEntry;
+import com.marcubus.nio.model.messages.CreateGame;
+import com.marcubus.nio.model.messages.LogMessage;
+import com.marcubus.nio.model.messages.StartMulligan;
 
-public class LogFactory {
+public class MessageFactory {
 
-  private Map<String, LogMessageType> messageTypes;
+  private Map<String, LogMessage> messageTypes;
   
-  public LogFactory() {
-    messageTypes = new HashMap<String, LogMessageType>();
+  public MessageFactory() {
+    messageTypes = new HashMap<String, LogMessage>();
     init();
   }
   

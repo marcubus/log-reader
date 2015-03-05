@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -6,13 +6,15 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ANewLogFileInputInstanceTest {
+import com.marcubus.nio.LogReaderImpl;
+
+public class ANewLogReaderImplInstanceTest {
 
   private LogReader in;
 
   @Before
   public void setup() throws Exception {
-    in = new LogReader("src/test/resources/output_log.txt");
+    in = new LogReaderImpl("src/test/resources/output_log.txt");
   }
   
   @Test

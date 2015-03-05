@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -6,15 +6,14 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.util.Observable;
 
-public class FileWatchRunner extends Observable implements Runnable {
+public class FileWatcher extends RunnableWatcher {
 
   private Path file;
   private Path directory;
   private WatchService watcher;
   
-  public FileWatchRunner(WatchService watcher, String filePath) throws Exception {
+  public FileWatcher(WatchService watcher, String filePath) throws Exception {
     this.watcher = watcher;
     Path path = Paths.get(filePath);
     file = path.getFileName();

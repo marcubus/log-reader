@@ -1,9 +1,11 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio;
+
+import com.marcubus.nio.LogReaderImpl;
 
 public class MonitorFile {
 
   public static void main(String[] args) throws Exception {
-    try (LogReader log = new LogReader(args[0])) {
+    try (LogReader log = new LogReaderImpl(args[0])) {
       while(true) {
         String line = log.nextEntry();
         if (line != null) 

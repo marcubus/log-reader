@@ -1,4 +1,4 @@
-package com.marcubus.hs.log;
+package com.marcubus.nio.service;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,10 @@ import java.util.Arrays;
 import org.junit.After;
 import org.junit.Test;
 
-public class FileWatcherTest {
+import com.marcubus.nio.service.FileWatcherService;
+import com.marcubus.nio.service.ResourceWatcherService;
+
+public class FileWatcherServiceTest {
 
   private static int SLEEP = 20;
 
@@ -24,31 +27,31 @@ public class FileWatcherTest {
   
   @Test
   public void create() throws Exception {
-    new FileWatcher("src/test/resources/output_log.txt");
+    new FileWatcherService("src/test/resources/output_log.txt");
   }
   
   @Test 
   public void createIsChangeFalse() throws Exception {
-    FileWatcher fileWatcher = new FileWatcher("src/test/resources/output_log.txt");
+    ResourceWatcherService fileWatcher = new FileWatcherService("src/test/resources/output_log.txt");
     assertFalse(fileWatcher.isChanged());
   }
   
   @Test 
   public void testStart() throws Exception {
-    FileWatcher fileWatcher = new FileWatcher("src/test/resources/output_log.txt");
+    ResourceWatcherService fileWatcher = new FileWatcherService("src/test/resources/output_log.txt");
     fileWatcher.start();
   }
 
   @Test 
   public void testStop() throws Exception {
-    FileWatcher fileWatcher = new FileWatcher("src/test/resources/output_log.txt");
+    ResourceWatcherService fileWatcher = new FileWatcherService("src/test/resources/output_log.txt");
     fileWatcher.stop();
   }
   
   
   @Test
   public void testChanged() throws Exception {
-    FileWatcher fileWatcher = new FileWatcher("src/test/resources/output_log.txt");
+    ResourceWatcherService fileWatcher = new FileWatcherService("src/test/resources/output_log.txt");
     fileWatcher.start();
     Files.setLastModifiedTime(Paths.get("src/test/resources/output_log.txt"), FileTime.fromMillis(System.currentTimeMillis()));    
     Thread.sleep(SLEEP);
@@ -57,7 +60,7 @@ public class FileWatcherTest {
   
   @Test
   public void testChangedReset() throws Exception {
-    FileWatcher fileWatcher = new FileWatcher("src/test/resources/output_log.txt");
+    ResourceWatcherService fileWatcher = new FileWatcherService("src/test/resources/output_log.txt");
     fileWatcher.start();
     Files.setLastModifiedTime(Paths.get("src/test/resources/output_log.txt"), FileTime.fromMillis(System.currentTimeMillis()));
     Thread.sleep(SLEEP);
