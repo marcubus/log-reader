@@ -12,8 +12,8 @@ public class FileWatcherService implements ResourceWatcherService {
   private final ExecutorService executor;
   private final WatchService watcher;
 
-  private boolean isChanged;
-  private boolean isStarted;
+  private boolean changed;
+  private boolean started;
   
   public FileWatcherService(final String filePath) throws Exception {
     this(Executors.newSingleThreadExecutor(), FileSystems.getDefault().newWatchService(), filePath);
@@ -33,11 +33,11 @@ public class FileWatcherService implements ResourceWatcherService {
   @Override
   public void start() throws Exception {
     synchronized (executor) {
-      if (!isStarted) {
+      if (!started) {
         FileWatcher runner = new FileWatcher(watcher, filePath);
         runner.addObserver(this);
         executor.execute(runner);
-        isStarted = true;
+        started = true;
       }
     }
   }
@@ -51,16 +51,15 @@ public class FileWatcherService implements ResourceWatcherService {
   
   @Override
   public boolean isChanged() {
-    return isChanged;
+    return changed;
   }
 
   @Override
   public void resetChanged() {
-    isChanged = false;
+    setChanged(false);    
   }
   
   private void setChanged(boolean isChanged) {
-    this.isChanged = isChanged;
   }
 
 }
