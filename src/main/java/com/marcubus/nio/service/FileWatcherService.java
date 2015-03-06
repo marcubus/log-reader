@@ -60,6 +60,7 @@ public class FileWatcherService implements ResourceWatcherService {
   }
   
   private void setChanged(boolean isChanged) {
+    changed = isChanged;
   }
 
 }
